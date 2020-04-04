@@ -22,7 +22,7 @@ import java.util.Map.Entry;
 
 public class Benchmark {
 	public boolean warmup = true;
-	public HashMap<String, Long> testTimes = new HashMap();
+	public HashMap<String, Long> testTimes = new HashMap<>();
 	private long s;
 
 	public void start () {
@@ -39,13 +39,13 @@ public class Benchmark {
 	}
 
 	public void chart (String title) {
-		Comparator<Entry> comparator = new Comparator<Entry>() {
-			public int compare (Entry o1, Entry o2) {
+		Comparator<Entry<String,Long>> comparator = new Comparator<Entry<String,Long>>() {
+			public int compare (Entry<String,Long> o1, Entry<String,Long> o2) {
 				// return ((String)o1.getKey()).compareTo((String)o2.getKey());
-				return (int)((Long)o1.getValue() - (Long)o2.getValue());
+				return (int)(o1.getValue() - o2.getValue());
 			}
 		};
-		ArrayList<Entry> list = new ArrayList(testTimes.entrySet());
+		ArrayList<Entry<String,Long>> list = new ArrayList<>(testTimes.entrySet());
 		Collections.sort(list, comparator);
 
 		StringBuilder names = new StringBuilder(512);
