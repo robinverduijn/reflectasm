@@ -15,7 +15,6 @@
 package com.esotericsoftware.reflectasm.benchmark;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 
 import com.esotericsoftware.reflectasm.FieldAccess;
 

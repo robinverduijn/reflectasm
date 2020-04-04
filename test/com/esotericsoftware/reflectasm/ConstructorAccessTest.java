@@ -14,8 +14,6 @@
 
 package com.esotericsoftware.reflectasm;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 
 public class ConstructorAccessTest extends TestCase {
