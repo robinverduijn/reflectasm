@@ -24,7 +24,7 @@ public class ClassLoaderTest extends TestCase {
 	public void testDifferentClassloaders () throws Exception {
 		// This classloader can see only the Test class and core Java classes.
 		ClassLoader testClassLoader = new TestClassLoader1();
-		Class testClass = testClassLoader.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
+		Class<?> testClass = testClassLoader.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
 		Object testObject = testClass.newInstance();
 
 		// Ensure AccessClassLoader can access both the Test class and FieldAccess.
@@ -39,7 +39,7 @@ public class ClassLoaderTest extends TestCase {
 		int initialCount = AccessClassLoader.activeAccessClassLoaders();
 
 		ClassLoader testClassLoader1 = new TestClassLoader1();
-		Class testClass1 = testClassLoader1.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
+		Class<?> testClass1 = testClassLoader1.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
 		Object testObject1 = testClass1.newInstance();
 		FieldAccess access1 = FieldAccess.get(testObject1.getClass());
 		access1.set(testObject1, "name", "first");
@@ -47,7 +47,7 @@ public class ClassLoaderTest extends TestCase {
 		assertEquals("first", access1.get(testObject1, "name"));
 
 		ClassLoader testClassLoader2 = new TestClassLoader2();
-		Class testClass2 = testClassLoader2.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
+		Class<?> testClass2 = testClassLoader2.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
 		Object testObject2 = testClass2.newInstance();
 		FieldAccess access2 = FieldAccess.get(testObject2.getClass());
 		access2.set(testObject2, "name", "second");
@@ -95,7 +95,7 @@ public class ClassLoaderTest extends TestCase {
 		int initialCount = AccessClassLoader.activeAccessClassLoaders();
 
 		ClassLoader testClassLoader1 = new TestClassLoader1();
-		Class testClass1 = testClassLoader1.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
+		Class<?> testClass1 = testClassLoader1.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
 		Object testObject1 = testClass1.newInstance();
 		FieldAccess access1 = FieldAccess.get(testObject1.getClass());
 		access1.set(testObject1, "name", "first");
@@ -103,7 +103,7 @@ public class ClassLoaderTest extends TestCase {
 		assertEquals("first", access1.get(testObject1, "name"));
 
 		ClassLoader testClassLoader2 = new TestClassLoader2();
-		Class testClass2 = testClassLoader2.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
+		Class<?> testClass2 = testClassLoader2.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
 		Object testObject2 = testClass2.newInstance();
 		FieldAccess access2 = FieldAccess.get(testObject2.getClass());
 		access2.set(testObject2, "name", "second");
@@ -133,7 +133,7 @@ public class ClassLoaderTest extends TestCase {
 
 	static public class TestClassLoader1 extends ClassLoader {
 		protected synchronized Class<?> loadClass (String name, boolean resolve) throws ClassNotFoundException {
-			Class c = findLoadedClass(name);
+			Class<?> c = findLoadedClass(name);
 			if (c != null) return c;
 			if (name.startsWith("java.")) return super.loadClass(name, resolve);
 			if (!name.equals("com.esotericsoftware.reflectasm.ClassLoaderTest$Test"))

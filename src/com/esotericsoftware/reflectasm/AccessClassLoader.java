@@ -40,7 +40,7 @@ class AccessClassLoader extends ClassLoader {
 	}
 
 	/** Returns null if the access class has not yet been defined. */
-	Class loadAccessClass (String name) {
+	Class<?> loadAccessClass (String name) {
 		// No need to check the parent class loader if the access class hasn't been defined yet.
 		if (localClassNames.contains(name)) {
 			try {
@@ -52,7 +52,7 @@ class AccessClassLoader extends ClassLoader {
 		return null;
 	}
 
-	Class defineAccessClass (String name, byte[] bytes) throws ClassFormatError {
+	Class<?> defineAccessClass (String name, byte[] bytes) throws ClassFormatError {
 		localClassNames.add(name);
 		return defineClass(name, bytes);
 	}
@@ -81,7 +81,7 @@ class AccessClassLoader extends ClassLoader {
 	// As per JLS, section 5.3,
 	// "The runtime package of a class or interface is determined by the package name and defining class loader of the class or
 	// interface."
-	static boolean areInSameRuntimeClassLoader (Class type1, Class type2) {
+	static boolean areInSameRuntimeClassLoader (Class<?> type1, Class<?> type2) {
 		if (type1.getPackage() != type2.getPackage()) {
 			return false;
 		}
@@ -95,7 +95,7 @@ class AccessClassLoader extends ClassLoader {
 		return loader1 == loader2;
 	}
 
-	static private ClassLoader getParentClassLoader (Class type) {
+	static private ClassLoader getParentClassLoader (Class<?> type) {
 		ClassLoader parent = type.getClassLoader();
 		if (parent == null) parent = ClassLoader.getSystemClassLoader();
 		return parent;
@@ -117,7 +117,7 @@ class AccessClassLoader extends ClassLoader {
 		return defineClassMethod;
 	}
 
-	static AccessClassLoader get (Class type) {
+	static AccessClassLoader get (Class<?> type) {
 		ClassLoader parent = getParentClassLoader(type);
 		// 1. fast-path:
 		if (selfContextParentClassLoader.equals(parent)) {

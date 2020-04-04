@@ -27,7 +27,7 @@ import org.objectweb.asm.Type;
 
 public abstract class FieldAccess {
 	private String[] fieldNames;
-	private Class[] fieldTypes;
+	private Class<?>[] fieldTypes;
 	private Field[] fields;
 
 	public int getIndex (String fieldName) {
@@ -54,7 +54,7 @@ public abstract class FieldAccess {
 		return fieldNames;
 	}
 
-	public Class[] getFieldTypes () {
+	public Class<?>[] getFieldTypes () {
 		return fieldTypes;
 	}
 
@@ -109,12 +109,12 @@ public abstract class FieldAccess {
 	abstract public float getFloat (Object instance, int fieldIndex);
 
 	/** @param type Must not be the Object class, an interface, a primitive type, or void. */
-	static public FieldAccess get (Class type) {
+	static public FieldAccess get (Class<?> type) {
 		if (type.getSuperclass() == null)
 			throw new IllegalArgumentException("The type must not be the Object class, an interface, a primitive type, or void.");
 
 		ArrayList<Field> fields = new ArrayList<Field>();
-		Class nextClass = type;
+		Class<?> nextClass = type;
 		while (nextClass != Object.class) {
 			Field[] declaredFields = nextClass.getDeclaredFields();
 			for (int i = 0, n = declaredFields.length; i < n; i++) {
@@ -128,7 +128,7 @@ public abstract class FieldAccess {
 		}
 
 		String[] fieldNames = new String[fields.size()];
-		Class[] fieldTypes = new Class[fields.size()];
+		Class<?>[] fieldTypes = new Class[fields.size()];
 		for (int i = 0, n = fieldNames.length; i < n; i++) {
 			fieldNames[i] = fields.get(i).getName();
 			fieldTypes[i] = fields.get(i).getType();
@@ -138,7 +138,7 @@ public abstract class FieldAccess {
 		String accessClassName = className + "FieldAccess";
 		if (accessClassName.startsWith("java.")) accessClassName = "reflectasm." + accessClassName;
 
-		Class accessClass;
+		Class<?> accessClass;
 		AccessClassLoader loader = AccessClassLoader.get(type);
 		synchronized (loader) {
 			accessClass = loader.loadAccessClass(accessClassName);
