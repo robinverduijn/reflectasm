@@ -143,7 +143,6 @@ public class ClassLoaderTest extends TestCase {
 			if (input == null) return null;
 			try {
 				byte[] buffer = new byte[4096];
-				int total = 0;
 				while (true) {
 					int length = input.read(buffer, 0, buffer.length);
 					if (length == -1) break;

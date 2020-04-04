@@ -115,7 +115,6 @@ public class FieldAccessTest extends TestCase {
 		public int intValue;
 		protected float test1;
 		Float test2;
-		private String test3;
 
 		public boolean booleanField;
 		public byte byteField;
