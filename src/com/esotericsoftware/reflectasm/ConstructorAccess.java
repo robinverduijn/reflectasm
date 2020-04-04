@@ -123,7 +123,7 @@ abstract public class ConstructorAccess<T> {
 		MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitMethodInsn(INVOKESPECIAL, superclassNameInternal, "<init>", "()V");
+		mv.visitMethodInsn(INVOKESPECIAL, superclassNameInternal, "<init>", "()V",false);
 		mv.visitInsn(RETURN);
 		mv.visitMaxs(1, 1);
 		mv.visitEnd();
@@ -134,7 +134,7 @@ abstract public class ConstructorAccess<T> {
 		mv.visitCode();
 		mv.visitTypeInsn(NEW, classNameInternal);
 		mv.visitInsn(DUP);
-		mv.visitMethodInsn(INVOKESPECIAL, classNameInternal, "<init>", "()V");
+		mv.visitMethodInsn(INVOKESPECIAL, classNameInternal, "<init>", "()V",false);
 		mv.visitInsn(ARETURN);
 		mv.visitMaxs(2, 1);
 		mv.visitEnd();
@@ -149,16 +149,16 @@ abstract public class ConstructorAccess<T> {
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitTypeInsn(CHECKCAST, enclosingClassNameInternal);
 			mv.visitInsn(DUP);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;",false);
 			mv.visitInsn(POP);
-			mv.visitMethodInsn(INVOKESPECIAL, classNameInternal, "<init>", "(L" + enclosingClassNameInternal + ";)V");
+			mv.visitMethodInsn(INVOKESPECIAL, classNameInternal, "<init>", "(L" + enclosingClassNameInternal + ";)V",false);
 			mv.visitInsn(ARETURN);
 			mv.visitMaxs(4, 2);
 		} else {
 			mv.visitTypeInsn(NEW, "java/lang/UnsupportedOperationException");
 			mv.visitInsn(DUP);
 			mv.visitLdcInsn("Not an inner class.");
-			mv.visitMethodInsn(INVOKESPECIAL, "java/lang/UnsupportedOperationException", "<init>", "(Ljava/lang/String;)V");
+			mv.visitMethodInsn(INVOKESPECIAL, "java/lang/UnsupportedOperationException", "<init>", "(Ljava/lang/String;)V",false);
 			mv.visitInsn(ATHROW);
 			mv.visitMaxs(3, 2);
 		}
