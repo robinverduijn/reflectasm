@@ -29,7 +29,7 @@ public class ConstructorAccessBenchmark extends Benchmark {
 				dontCompileMeAway[ii] = access.newInstance();
 		for (int i = 0; i < 100; i++)
 			for (int ii = 0; ii < count; ii++)
-				dontCompileMeAway[ii] = type.newInstance();
+				dontCompileMeAway[ii] = type.getDeclaredConstructor().newInstance();
 		warmup = false;
 
 		for (int i = 0; i < 100; i++) {
@@ -41,7 +41,7 @@ public class ConstructorAccessBenchmark extends Benchmark {
 		for (int i = 0; i < 100; i++) {
 			start();
 			for (int ii = 0; ii < count; ii++)
-				dontCompileMeAway[ii] = type.newInstance();
+				dontCompileMeAway[ii] = type.getDeclaredConstructor().newInstance();
 			end("Reflection");
 		}
 

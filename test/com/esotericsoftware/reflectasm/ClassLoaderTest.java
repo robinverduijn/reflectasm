@@ -25,7 +25,7 @@ public class ClassLoaderTest extends TestCase {
 		// This classloader can see only the Test class and core Java classes.
 		ClassLoader testClassLoader = new TestClassLoader1();
 		Class<?> testClass = testClassLoader.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
-		Object testObject = testClass.newInstance();
+		Object testObject = testClass.getDeclaredConstructor().newInstance();
 
 		// Ensure AccessClassLoader can access both the Test class and FieldAccess.
 		FieldAccess access = FieldAccess.get(testObject.getClass());
@@ -40,7 +40,7 @@ public class ClassLoaderTest extends TestCase {
 
 		ClassLoader testClassLoader1 = new TestClassLoader1();
 		Class<?> testClass1 = testClassLoader1.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
-		Object testObject1 = testClass1.newInstance();
+		Object testObject1 = testClass1.getDeclaredConstructor().newInstance();
 		FieldAccess access1 = FieldAccess.get(testObject1.getClass());
 		access1.set(testObject1, "name", "first");
 		assertEquals("first", testObject1.toString());
@@ -48,7 +48,7 @@ public class ClassLoaderTest extends TestCase {
 
 		ClassLoader testClassLoader2 = new TestClassLoader2();
 		Class<?> testClass2 = testClassLoader2.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
-		Object testObject2 = testClass2.newInstance();
+		Object testObject2 = testClass2.getDeclaredConstructor().newInstance();
 		FieldAccess access2 = FieldAccess.get(testObject2.getClass());
 		access2.set(testObject2, "name", "second");
 		assertEquals("second", testObject2.toString());
@@ -96,7 +96,7 @@ public class ClassLoaderTest extends TestCase {
 
 		ClassLoader testClassLoader1 = new TestClassLoader1();
 		Class<?> testClass1 = testClassLoader1.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
-		Object testObject1 = testClass1.newInstance();
+		Object testObject1 = testClass1.getDeclaredConstructor().newInstance();
 		FieldAccess access1 = FieldAccess.get(testObject1.getClass());
 		access1.set(testObject1, "name", "first");
 		assertEquals("first", testObject1.toString());
@@ -104,7 +104,7 @@ public class ClassLoaderTest extends TestCase {
 
 		ClassLoader testClassLoader2 = new TestClassLoader2();
 		Class<?> testClass2 = testClassLoader2.loadClass("com.esotericsoftware.reflectasm.ClassLoaderTest$Test");
-		Object testObject2 = testClass2.newInstance();
+		Object testObject2 = testClass2.getDeclaredConstructor().newInstance();
 		FieldAccess access2 = FieldAccess.get(testObject2.getClass());
 		access2.set(testObject2, "name", "second");
 		assertEquals("second", testObject2.toString());

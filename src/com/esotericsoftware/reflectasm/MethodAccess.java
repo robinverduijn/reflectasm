@@ -277,7 +277,7 @@ public abstract class MethodAccess {
 			}
 		}
 		try {
-			MethodAccess access = (MethodAccess)accessClass.newInstance();
+			MethodAccess access = (MethodAccess)accessClass.getDeclaredConstructor().newInstance();
 			access.methodNames = methodNames;
 			access.parameterTypes = parameterTypes;
 			access.returnTypes = returnTypes;

@@ -174,7 +174,7 @@ public abstract class FieldAccess {
 			}
 		}
 		try {
-			FieldAccess access = (FieldAccess)accessClass.newInstance();
+			FieldAccess access = (FieldAccess)accessClass.getDeclaredConstructor().newInstance();
 			access.fieldNames = fieldNames;
 			access.fieldTypes = fieldTypes;
 			access.fields = fields.toArray(new Field[fields.size()]);

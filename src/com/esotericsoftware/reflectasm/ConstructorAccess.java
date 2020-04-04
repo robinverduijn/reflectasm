@@ -102,7 +102,7 @@ abstract public class ConstructorAccess<T> {
 		ConstructorAccess<T> access;
 		try {
 			@SuppressWarnings("unchecked")
-			ConstructorAccess<T> tmp = (ConstructorAccess<T>)accessClass.newInstance();
+			ConstructorAccess<T> tmp = (ConstructorAccess<T>)accessClass.getDeclaredConstructor().newInstance();
 			access = tmp;
 		} catch (Throwable t) {
 			throw new RuntimeException("Exception constructing constructor access class: " + accessClassName, t);
