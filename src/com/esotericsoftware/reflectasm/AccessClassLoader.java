@@ -14,9 +14,8 @@
 
 package com.esotericsoftware.reflectasm;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
-import java.security.ProtectionDomain;
 import java.util.HashSet;
 import java.util.WeakHashMap;
 
@@ -30,8 +29,6 @@ class AccessClassLoader extends ClassLoader {
 	// Fast-path for classes loaded in the same ClassLoader as this class.
 	static private final ClassLoader selfContextParentClassLoader = getParentClassLoader(AccessClassLoader.class);
 	static private volatile AccessClassLoader selfContextAccessClassLoader = new AccessClassLoader(selfContextParentClassLoader);
-
-	static private volatile Method defineClassMethod;
 
 	private final HashSet<String> localClassNames = new HashSet<>();
 
@@ -69,9 +66,7 @@ class AccessClassLoader extends ClassLoader {
 
 	Class<?> defineClass (String name, byte[] bytes) throws ClassFormatError {
 		try {
-			// Attempt to load the access class in the same loader, which makes protected and default access members accessible.
-			return (Class<?>)getDefineClassMethod().invoke(getParent(),
-				new Object[] {name, bytes, Integer.valueOf(0), Integer.valueOf(bytes.length), getClass().getProtectionDomain()});
+			return MethodHandles.lookup().defineClass(bytes);
 		} catch (Exception ignored) {
 			// continue with the definition in the current loader (won't have access to protected and package-protected members)
 		}
@@ -99,22 +94,6 @@ class AccessClassLoader extends ClassLoader {
 		ClassLoader parent = type.getClassLoader();
 		if (parent == null) parent = ClassLoader.getSystemClassLoader();
 		return parent;
-	}
-
-	static private Method getDefineClassMethod () throws Exception {
-		if (defineClassMethod == null) {
-			synchronized (accessClassLoaders) {
-				if (defineClassMethod == null) {
-					defineClassMethod = ClassLoader.class.getDeclaredMethod("defineClass",
-						new Class[] {String.class, byte[].class, int.class, int.class, ProtectionDomain.class});
-					try {
-						defineClassMethod.setAccessible(true);
-					} catch (Exception ignored) {
-					}
-				}
-			}
-		}
-		return defineClassMethod;
 	}
 
 	static AccessClassLoader get (Class<?> type) {

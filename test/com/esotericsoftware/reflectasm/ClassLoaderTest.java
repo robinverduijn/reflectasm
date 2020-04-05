@@ -17,6 +17,7 @@ package com.esotericsoftware.reflectasm;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 
 import junit.framework.TestCase;
 
@@ -157,7 +158,11 @@ public class ClassLoaderTest extends TestCase {
 				}
 			}
 			byte[] buffer = output.toByteArray();
-			return defineClass(name, buffer, 0, buffer.length);
+			try {
+				return MethodHandles.lookup().defineClass(buffer);
+			} catch (IllegalAccessException e) {
+				throw new ClassNotFoundException("Error defining class",e);
+			}
 		}
 	}
 
